@@ -37,3 +37,11 @@ Botpucko is a simple Discord bot utilizing the Discord.net framework.
 The current recommended minimum bot permissions are 3072.
 - [x] Read Messages/View Channels
 - [x] Send Messages
+
+## Requirements
+.Net 6.0
+
+## Features
+- [x] `!Roll xdy`, rolls x dy dice. Example usage: `!Roll 3d6`, output: ``. Alias `!r xdy`.
+- [x] `!time` prints the time remaining until the session. Example usage `!time`, output `35 hours 15 minutes left until session`.
+- [ ] `!time set d hhmm` (server owner restriction) sets the session time for the `!time` command to a supplied day and time. Example usage `!time set 3 2030`, output: sets the session time to thursday 20:30.
