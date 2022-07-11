@@ -5,6 +5,13 @@
       "resourceId": null,
       "type": "secrets.user",
       "connectionId": null
+    },
+    "cosmosdb1": {
+      "secretStore": "LocalSecretsFile",
+      "resourceId": "/subscriptions/[parameters('subscriptionId')]/resourceGroups/[parameters('resourceGroupName')]/providers/Microsoft.DocumentDB/databaseAccounts/botpuckoaccount",
+      "type": "cosmosdb.azure",
+      "connectionId": "Storage",
+      "dynamicId": null
     }
   }
 }

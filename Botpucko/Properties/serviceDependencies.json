@@ -3,6 +3,11 @@
     "secrets1": {
       "type": "secrets",
       "connectionId": null
+    },
+    "cosmosdb1": {
+      "type": "cosmosdb",
+      "connectionId": "Storage",
+      "dynamicId": null
     }
   }
 }
