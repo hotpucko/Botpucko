@@ -1,4 +1,5 @@
-﻿using Discord;
+﻿using Botpucko.Services;
+using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
 
@@ -14,11 +15,25 @@ namespace Botpucko
 
         private AuthenticationController? _authenticationController;
 
+        private CosmosDBService? _cosmosDBService;
+
         public async Task MainAsync()
         {
             var builder = new ConfigurationBuilder().AddUserSecrets<Program>();
+            
+            IConfiguration Configuration = builder.Build();
 
-            _authenticationController = new(builder.Build());
+            _authenticationController = new(Configuration);
+
+            try
+            {
+                _cosmosDBService = await CosmosDBService.CreateAsync(Configuration);
+            }
+            catch (Exception e)
+            {
+                // TODO: implement cache exclusive switch here
+                Console.WriteLine("Error setting up the database service. {0}", e.Message);
+            }
 
             _client = new DiscordSocketClient();
 
