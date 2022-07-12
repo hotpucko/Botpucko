@@ -12,7 +12,7 @@ namespace Botpucko
 
         public static class StaticErrorMessages
         {
-            public const string RollError = "Does not follow the syntax of !roll xdy where is is quantity and y is number on die.";
+            public const string RollError = "Does not follow the syntax of !roll xdy where x is quantity and y is number on die.";
         }
     }
 }
