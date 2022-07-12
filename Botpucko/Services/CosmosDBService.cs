@@ -52,7 +52,7 @@ namespace Botpucko.Services
 
         private async Task CreateContainersAsync()
         {
-            container = database == null ? null : await database.CreateContainerAsync(CONTAINER_ID, CONTAINER_PARTITION_KEY_ID);
+            container = database == null ? null : await database.CreateContainerIfNotExistsAsync(CONTAINER_ID, CONTAINER_PARTITION_KEY_ID);
         }
 
         public async Task AddGuildItemAsync(Guild Guild)
