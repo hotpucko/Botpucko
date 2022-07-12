@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Botpucko.Services
 {
-    internal interface IDBService<T> where T : class
+    internal interface IDBService<T> where T : IDBService<T>
     {
         public static abstract Task<T> CreateAsync(IConfiguration Configuration);
 
