@@ -10,9 +10,18 @@ namespace Botpucko
     {
         public static readonly Random random = new();
 
-        public static class StaticErrorMessages
+        public static class ErrorMessages
         {
-            public const string RollError = "Does not follow the syntax of !roll xdy where x is quantity and y is number on die.";
+            public static class RollModule
+            {
+                public const string SyntaxError = "Does not follow the syntax of !roll xdy where x is quantity and y is number on die.";
+                public const string SizeError = "Max dice quantity or max dice sides exceeded.";
+            }
+
+            public static class TimeModule
+            {
+
+            }
         }
     }
 }
