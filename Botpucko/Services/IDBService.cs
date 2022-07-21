@@ -8,16 +8,16 @@ using System.Threading.Tasks;
 
 namespace Botpucko.Services
 {
-    internal interface IDBService<T> where T : IDBService<T>
+    public interface IDBService
     {
-        public static abstract Task<T> CreateAsync(IConfiguration Configuration);
+        public static abstract Task<IDBService> CreateAsync(IConfiguration Configuration);
 
         public Task AddGuildItemAsync(Guild guild);
 
-        public Task<Guild> GetGuildItemAsync(int id);
+        public Task<Guild> GetGuildItemAsync(string id);
 
-        public Task ReplaceGuildDateItemAsync(int id, SessionDate date);
+        public Task ReplaceGuildDateItemAsync(string id, SessionDate date);
 
-        public Task DeleteGuildItemAsync(int id);
+        public Task DeleteGuildItemAsync(string  id);
     }
 }
