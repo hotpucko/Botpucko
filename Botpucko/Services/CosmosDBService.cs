@@ -10,7 +10,7 @@ using Botpucko.Models;
 
 namespace Botpucko.Services
 {
-    internal class CosmosDBService : IDBService<CosmosDBService>
+    internal class CosmosDBService : IDBService
     {
         private readonly string EndpointURI;
         private readonly string PrimaryKey;
@@ -30,12 +30,12 @@ namespace Botpucko.Services
         private CosmosDBService(IConfiguration Configuration)
         {
             this.Configuration = Configuration;
-            EndpointURI = Configuration["Storage:URI"];
-            PrimaryKey = Configuration["Storage:PrimaryKey"];
+            EndpointURI = Configuration["Storage:Azure:CosmosDB:URI"];
+            PrimaryKey = Configuration["Storage:Azure:CosmosDB:PrimaryKey"];
             cosmosClient = new(EndpointURI, PrimaryKey);
         }
 
-        public static async Task<CosmosDBService> CreateAsync(IConfiguration Configuration)
+        public static async Task<IDBService> CreateAsync(IConfiguration Configuration)
         {
             CosmosDBService service = new(Configuration);
             await service.CreateDatabaseAsync();
@@ -68,7 +68,7 @@ namespace Botpucko.Services
             }
         }
 
-        public async Task<Guild> GetGuildItemAsync(int Id)
+        public async Task<Guild> GetGuildItemAsync(string Id)
         {
             var sqlQueryText = $"SELECT * FROM c WHERE c.Id = '{Id}'";
 
@@ -95,19 +95,19 @@ namespace Botpucko.Services
             return guilds[0];
         }
 
-        public async Task ReplaceGuildDateItemAsync(int id, SessionDate date)
+        public async Task ReplaceGuildDateItemAsync(string id, SessionDate date)
         {
             ItemResponse<Guild> guildResponse = await this.container.ReadItemAsync<Guild>(id.ToString(), new PartitionKey(id));
             Guild itemBody = guildResponse.Resource;
 
-            SessionDate old = itemBody.Date;
+            SessionDate oldDate = itemBody.Date;
             itemBody.Date = date;
 
             guildResponse = await this.container.ReplaceItemAsync<Guild>(itemBody, itemBody.Id, new PartitionKey(itemBody.Id));
-            Console.WriteLine("Updated Guild {0} to {1} (was {2}).", guildResponse.Resource.Id, guildResponse.Resource.Date, old);
+            Console.WriteLine("Updated Guild {0} to {1} (was {2}).", guildResponse.Resource.Id, guildResponse.Resource.Date, oldDate);
         }
 
-        public async Task DeleteGuildItemAsync(int id)
+        public async Task DeleteGuildItemAsync(string id)
         {
             ItemResponse<Guild> itemResponse = await this.container.DeleteItemAsync<Guild>(id.ToString(), new PartitionKey(id));
             Console.WriteLine("Deleted Guild [{0}].", itemResponse.Resource.Id);
