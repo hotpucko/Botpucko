@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 
 namespace Botpucko.Models
 {
-    internal class Guild
+    public class Guild
     {
         [JsonProperty(PropertyName = "id")]
         public string Id { get; set; }
@@ -21,7 +21,7 @@ namespace Botpucko.Models
 
     }
 
-    internal class SessionDate
+    public class SessionDate
     {
         public DayOfWeek Day { get; set; }
         public TimeOnly Time { get; set; }
