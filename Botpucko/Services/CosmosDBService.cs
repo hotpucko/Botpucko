@@ -68,7 +68,7 @@ namespace Botpucko.Services
             }
         }
 
-        public async Task<Guild> GetGuildItemAsync(string Id)
+        public async Task<Guild?> GetGuildItemAsync(string Id)
         {
             var sqlQueryText = $"SELECT * FROM c WHERE c.Id = '{Id}'";
 
@@ -90,7 +90,7 @@ namespace Botpucko.Services
             }
 
             if (guilds.Count <= 0)
-                throw new IOException("Could not find the Guild in the database.");
+                return null;
 
             return guilds[0];
         }
