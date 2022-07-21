@@ -21,6 +21,7 @@
     <PackageReference Include="Discord.Net" Version="3.7.2" />
     <PackageReference Include="Microsoft.Azure.Cosmos" Version="3.28.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
   </ItemGroup>
 
 </Project>

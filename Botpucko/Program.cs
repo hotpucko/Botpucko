@@ -2,6 +2,8 @@
 using Discord;
 using Discord.WebSocket;
 using Microsoft.Extensions.Configuration;
+using Discord.Commands;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace Botpucko
 {
@@ -15,7 +17,15 @@ namespace Botpucko
 
         private AuthenticationController? _authenticationController;
 
-        private CosmosDBService? _cosmosDBService;
+        private IDBService? _iDBService;
+
+        private CacheService? _cacheService;
+
+        // Dependency Injection
+        IServiceProvider? _services;
+
+        CommandService? _commandService;
+
 
         public async Task MainAsync()
         {
@@ -27,17 +37,29 @@ namespace Botpucko
 
             try
             {
-                _cosmosDBService = await CosmosDBService.CreateAsync(Configuration);
+                _iDBService = await CosmosDBService.CreateAsync(Configuration);
             }
             catch (Exception e)
             {
                 // TODO: implement cache exclusive switch here
                 Console.WriteLine("Error setting up the database service. {0}", e.Message);
+                return;
             }
+
+            _cacheService = new();
+
+            _commandService = new CommandService();
 
             _client = new DiscordSocketClient();
 
-            _handler = new CommandHandler(_client, new Discord.Commands.CommandService());
+            _services = new ServiceCollection().AddSingleton(_client)
+                                               .AddSingleton(_commandService)
+                                               .AddSingleton(_iDBService)
+                                               .AddSingleton(_cacheService)
+                                               .AddSingleton<CommandHandler>()
+                                               .BuildServiceProvider();
+            _handler = new CommandHandler(_services, _client, _commandService);
+
 
             _client.Log += Log;
 
