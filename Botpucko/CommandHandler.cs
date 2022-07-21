@@ -13,11 +13,13 @@ namespace Botpucko
     {
         private readonly DiscordSocketClient _client;
         private readonly CommandService _commands;
+        IServiceProvider _services;
 
-        public CommandHandler(DiscordSocketClient client, CommandService commands)
+        public CommandHandler(in IServiceProvider services, DiscordSocketClient client, CommandService commands)
         {
             _client = client;
             _commands = commands;
+            _services = services;
         }
 
         public async Task InstallCommandsAsync()
@@ -34,7 +36,7 @@ namespace Botpucko
             // See Dependency Injection guide for more information.
 
             await _commands.AddModulesAsync(assembly: Assembly.GetEntryAssembly(),
-                                       services: null);
+                                       services: _services);
         }
 
         private async Task HandleCommandAsync(SocketMessage messageParam)
@@ -49,7 +51,7 @@ namespace Botpucko
 
             var context = new SocketCommandContext(_client, message);
 
-            await _commands.ExecuteAsync(context: context, argPos: argpos, services: null);
+            await _commands.ExecuteAsync(context: context, argPos: argpos, services: _services);
         }
     }
 }
